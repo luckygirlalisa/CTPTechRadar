@@ -3,6 +3,8 @@
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 
+unsigned long time = 0;
+
 void setup()  
 {
   lcd.begin(16,2);   // initialize the lcd for 16 chars 2 lines, turn on backlight
@@ -10,10 +12,16 @@ void setup()
   lcd.print("CTP Tech Radar");  
   lcd.setCursor(0,1);
   lcd.print("Press Any Key"); 
+  time = millis();
 }
 
 void loop()
 {
+  if((millis() - time)>(1000*5))
+  {
+     setup();
+  }
+  
   showDifferentPointByPort(22, "Jetty", "Master");
   showDifferentPointByPort(23, "Tomcat", "Familiar");
   showDifferentPointByPort(24, "Node.js", "Know");
@@ -42,5 +50,6 @@ void showDifferentPointByPort(int portNum, char * keyword, char* description) {
     lcd.print(keyword);
     lcd.setCursor(0,1);
     lcd.print(description);
+    time=millis();
   } 
 }
